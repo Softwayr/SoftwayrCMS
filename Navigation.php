@@ -22,7 +22,7 @@ class Navigation {
 		}
 	}
 	
-	public static function create( $options = [], callable $callable = null ): Navigation {
+	public static function New( $options = [], callable $callable = null ): Navigation {
 		if( $options != null && is_array( $options ) && count( $options ) > 0 ) {
 			if( array_key_exists( "name", $options ) ) {
 				$navigation = new Navigation( $options );
@@ -41,7 +41,7 @@ class Navigation {
 		Navigation::get( key( Navigation::$navigations ) ).addItem( $route );
 	}*/
 	
-	public static function get( String $name ): Navigation {
+	public static function GetNavigation( String $name ): Navigation {
 		if( array_key_exists( $name, Navigation::$navigations ) )
 			return Navigation::$navigations[ $name ];
 		return null;
@@ -51,11 +51,11 @@ class Navigation {
 		return $this->items;
 	}
 	
-	public function addItem( Route $route ) {
+	public function AddItem( Route $route ) {
 		$this->items[] = $route;
 	}
 	
-	public function render() {
+	public function Render() {
 		$output = "";
 		if ( count( $this->items ) > 0 ) {
 			$output .= "\n\n<nav id=\"nav";
@@ -70,10 +70,18 @@ class Navigation {
 			
 			$output .= ">";
 			foreach ( $this->items as $item ) {
-				$output .= "\n\t<a href=\"" . Router::base_path() . $item->path() . "\"";
+				$output .= "\n\t<a href=\"" . Router::BasePath() . $item->path() . "\"";
 				
+				if( $this->item_class != "" || $item->page()->hasOption( "Navigation Class" ) )
+					$output .= " class=\"";
 				if( $this->item_class != "" )
-					$output .= " class=\"" . $this->item_class . "\"";
+					$output .= $this->item_class;
+				if( $this->item_class != "" && $item->page()->hasOption( "Navigation Class" ) )
+					$output .= " ";
+				if( $item->page()->hasOption( "Navigation Class" ) )
+					$output .= $item->page()->option( "Navigation Class" );
+				if( $this->item_class != "" || $item->page()->hasOption( "Navigation Class" ) )
+					$output .= "\"";
 				
 				$output .= ">" . $item->name() . "</a>";
 			}

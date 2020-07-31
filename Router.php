@@ -9,23 +9,23 @@ class Router {
 	private static $base_path = "/";
 	private static $routes = [ ];
 	
-	public static function add(Route $route) {
+	public static function Add(Route $route) {
 		Router::$routes [ $route->name() ] = $route;
 	}
 	
-	public static function create( String $name, String $path, Page $page ): Route {
+	public static function CreateRoute( String $name, String $path, Page $page ): Route {
 		$route = new Route( $name, $path, $page );
-		Router::add( $route );
+		Router::Add( $route );
 		return $route;
 	}
 	
-	public static function get( String $name ): Route {
+	public static function GetRoute( String $name ): Route {
 		if (array_key_exists ( $name, Router::$routes ))
 			return Router::$routes [ $name ];
 		return null;
 	}
 	
-	public static function find(array $params): array {
+	public static function Find(array $params): array {
 		$routes_found = [ ];
 		
 		foreach ( Router::$routes as $route ) {
@@ -52,12 +52,12 @@ class Router {
 		return $routes_found;
 	}
 	
-	public static function base_path( String $base_path = null ) {
+	public static function BasePath( String $base_path = null ) {
 		return $base_path != null ? Router::$base_path = $base_path : Router::$base_path;
 	}
 	
-	public static function route( String $page_path ) {
-		$routes_found = Router::find([ 'path' => $page_path ]);
+	public static function Route( String $page_path ) {
+		$routes_found = Router::Find([ 'path' => $page_path ]);
 		
 		if( count( $routes_found ) == 1 ) {
 			echo "<h2>" . $routes_found[0]->page()->title() . "</h2>";

@@ -12,16 +12,8 @@ class Route
         $this->page = $page;
     }
     
-    public function name(): String {
-        return $this->name;
-    }
-    
-    public function path(): String {
-        return $this->path;
-    }
-    
-    public function page(): Page {
-        return $this->page;
-    }
+    public function name(): String { return $this->name; }
+    public function path(): String { return $this->path; }
+    public function page(): Page { return $this->page; }
 }
 
